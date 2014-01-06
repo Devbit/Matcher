@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Communicator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Matcher
 {
     public interface IMatchFactory
     {
-        IMatch CreateMatch(IProfile profile, IVacancy vacancy, List<IMatchFactor> factors);
+        Match CreateMatch(Profile profile, Vacancy vacancy, List<MatchFactor> factors);
     }
 }

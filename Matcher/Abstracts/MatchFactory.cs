@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Communicator;
 
 namespace Matcher
 {
     public abstract class MatchFactory : IMatchFactory
     {
-        public abstract IMatch CreateMatch(IProfile profile, IVacancy vacancy, List<IMatchFactor> factors);
+        public abstract Match CreateMatch(Profile profile, Vacancy vacancy, List<MatchFactor> factors);
 
-        public IMatch CreateMatch(IProfile profile, IVacancy vacancy, List<IMatchFactor> factors, int strength)
+        public Match CreateMatch(Profile profile, Vacancy vacancy, List<MatchFactor> factors, int strength)
         {
-            IMatch match = new Match();
-            match.Profile = profile;
-            match.Vacancy = vacancy;
-            match.Factors = factors;
-            match.Strength = strength;
+            Match match = new Match();
+            match.profile = profile;
+            match.vacancy = vacancy;
+            match.factors = factors;
+            match.strength = strength;
             return match;
         }
     }

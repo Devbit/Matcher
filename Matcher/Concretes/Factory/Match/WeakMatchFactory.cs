@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Communicator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Matcher
 {
     public class WeakMatchFactory : MatchFactory
     {
-        public override IMatch CreateMatch(IProfile profile, IVacancy vacancy, List<IMatchFactor> factors)
+        public override Match CreateMatch(Profile profile, Vacancy vacancy, List<MatchFactor> factors)
         {
             return CreateMatch(profile, vacancy, factors, 25);
         }

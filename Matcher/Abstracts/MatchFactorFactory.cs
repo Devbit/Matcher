@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Communicator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,14 @@ namespace Matcher
 {
     public abstract class MatchFactorFactory : IMatchFactorFactory
     {
-        public abstract IMatchFactor CreateMatchFactor(string factor, string text);
+        public abstract MatchFactor CreateMatchFactor(string factor, string text);
 
-        public IMatchFactor CreateMatchFactor(string factor, string text, int strength)
+        public MatchFactor CreateMatchFactor(string factor, string text, int strength)
         {
-            IMatchFactor matchfactor = new MatchFactor();
-            matchfactor.Factor = factor;
-            matchfactor.Text = text;
-            matchfactor.Strength = strength;
+            MatchFactor matchfactor = new MatchFactor();
+            matchfactor.factor = factor;
+            matchfactor.text = text;
+            matchfactor.strength = strength;
             return matchfactor;
         }
     }

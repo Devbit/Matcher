@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Communicator">
+      <HintPath>..\packages\Communicator.0.26\lib\net45\Communicator.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,14 +55,8 @@
     <Compile Include="Concretes\Factory\Match\PerfectMatchFactory.cs" />
     <Compile Include="Concretes\Factory\Match\StrongMatchFactory.cs" />
     <Compile Include="Concretes\Factory\Match\WeakMatchFactory.cs" />
-    <Compile Include="Concretes\Match.cs" />
-    <Compile Include="Concretes\MatchFactor.cs" />
-    <Compile Include="Interfaces\IMatch.cs" />
-    <Compile Include="Interfaces\IMatchFactor.cs" />
     <Compile Include="Interfaces\IMatchFactorFactory.cs" />
     <Compile Include="Interfaces\IMatchFactory.cs" />
-    <Compile Include="Interfaces\IProfile.cs" />
-    <Compile Include="Interfaces\IVacancy.cs" />
     <Compile Include="Matcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

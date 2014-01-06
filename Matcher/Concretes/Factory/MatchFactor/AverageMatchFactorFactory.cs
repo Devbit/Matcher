@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Communicator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Matcher
 {
     class AverageMatchFactorFactory : MatchFactorFactory
     {
-        public override IMatchFactor CreateMatchFactor(string factor, string text)
+        public override MatchFactor CreateMatchFactor(string factor, string text)
         {
             return CreateMatchFactor(factor, text, 50);
         }
