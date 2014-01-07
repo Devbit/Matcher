@@ -87,6 +87,13 @@ namespace Matcher.Commander
         private static void WriteStopMenu()
         {
             int amount = WriteMatcherList();
+            if (amount == 0)
+            {
+                Console.Write(" No Matchers running");
+                Thread.Sleep(1000);
+                WriteMainMenu();
+                return;
+            }
             Console.Write(" Enter input: ");
             string input = Console.ReadKey().KeyChar.ToString();
             int result;

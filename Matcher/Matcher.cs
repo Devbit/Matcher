@@ -52,7 +52,7 @@ namespace Matcher
             while (_isRunning)
             {
                 //profiles = proc.GetNextProfiles();
-                //vacancies = proc.GetNextVacancies();
+                //vacancies = proc.GetNextVacancies
                 //Do matching algorithm here
                 Debug.WriteLine("Start");
                 status = "matching";

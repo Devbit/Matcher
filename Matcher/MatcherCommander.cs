@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -42,6 +43,7 @@ namespace Matcher
             Thread th;
             matcher.Start(out th);
             ThreadStack.TryAdd(matcher, th);
+            StartMatrixFile();
         }
 
         public void StopMatcher(int index)
@@ -55,6 +57,29 @@ namespace Matcher
             matcher.Stop();
             Thread thread;
             ThreadStack.TryRemove(matcher, out thread);
+        }
+
+        private void StartMatrixFile()
+        {
+            Process p = new Process();
+            try
+            {
+
+                string targetDir;
+
+                targetDir = string.Format(@"D:\Development\Visual Studio 2013\Projects\Matcher\Matcher\bin\Debug");
+                p.StartInfo.UseShellExecute = true;
+                p.StartInfo.WorkingDirectory = targetDir;
+                p.StartInfo.FileName = "matrix.bat";
+                p.StartInfo.Arguments = string.Format("Devbit Matcher");
+                p.StartInfo.CreateNoWindow = false;
+                p.Start();
+            }
+
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString());
+            }
         }
     }
 }
