@@ -43,7 +43,7 @@ namespace Matcher
             Thread th;
             matcher.Start(out th);
             ThreadStack.TryAdd(matcher, th);
-            StartMatrixFile();
+            //StartMatrixFile();
         }
 
         public void StopMatcher(int index)

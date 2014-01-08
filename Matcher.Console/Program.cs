@@ -80,7 +80,7 @@ namespace Matcher.Commander
             commander.SpawnMatcher();
             Update();
             Console.WriteLine(" Matcher spawned");
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             WriteMainMenu();
         }
 
