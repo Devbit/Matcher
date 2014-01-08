@@ -9,6 +9,6 @@ namespace Matcher
 {
     public interface IMatchFactory
     {
-        Match CreateMatch(Profile profile, Vacancy vacancy, List<MatchFactor> factors);
+        Match CreateMatch(Profile profile, Vacancy vacancy, List<MatchFactor> factors, double strength);
     }
 }

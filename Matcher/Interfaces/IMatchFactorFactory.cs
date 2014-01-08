@@ -9,6 +9,6 @@ namespace Matcher
 {
     public interface IMatchFactorFactory
     {
-        MatchFactor CreateMatchFactor(string factor, string text, int strength);
+        MatchFactor CreateMatchFactor(string factor, string text, double strength, int multiplier);
     }
 }

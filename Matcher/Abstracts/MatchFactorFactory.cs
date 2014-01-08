@@ -9,15 +9,6 @@ namespace Matcher
 {
     public abstract class MatchFactorFactory : IMatchFactorFactory
     {
-        public abstract MatchFactor CreateMatchFactor(string factor, string text);
-
-        public MatchFactor CreateMatchFactor(string factor, string text, int strength)
-        {
-            MatchFactor matchfactor = new MatchFactor();
-            matchfactor.factor = factor;
-            matchfactor.text = text;
-            matchfactor.strength = strength;
-            return matchfactor;
-        }
+        public abstract MatchFactor CreateMatchFactor(string factor, string text, double strength, int multiplier);
     }
 }
