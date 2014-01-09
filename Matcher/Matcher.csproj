@@ -51,7 +51,9 @@
   <ItemGroup>
     <Compile Include="Abstracts\MatchFactorFactory.cs" />
     <Compile Include="Abstracts\MatchFactory.cs" />
+    <Compile Include="Concretes\Algorithms\LocationAlgorithm.cs" />
     <Compile Include="Concretes\Algorithms\ExperienceAlgorithm.cs" />
+    <Compile Include="Concretes\Algorithms\DiffAlgorithm.cs" />
     <Compile Include="Concretes\Factory\MatchFactor\CustomMatchFactorFactory.cs" />
     <Compile Include="Concretes\Factory\Match\CustomMatchFactory.cs" />
     <Compile Include="Interfaces\IAlgorithm.cs" />
