@@ -13,7 +13,7 @@ namespace Matcher.Algorithms
     class ExperienceAlgorithm : IExperienceAlgorithm
     {
         
-
+        // Matched Experience & skills
         public MatchFactor CalculateFactor<T>(List<Experience> experiences, Vacancy vacancy, int multiplier)
         {
             TextAnalyser analyser = new TextAnalyser();
@@ -22,10 +22,10 @@ namespace Matcher.Algorithms
             int count = 0, score = 0;
             for (int expNr = 0; expNr < experiences.Count; expNr++)
             {                
-                
-                List<string> matchingWordsExperience = analyser.AnalyseText(experiences.ElementAt(expNr).description);
                 List<string> matchingWordsVacancy = analyser.AnalyseText(vacancy.details.ToString());
-                List<string> matchingWordsCombined = analyser.CompareLists(matchingWordsExperience, matchingWordsVacancy);
+                List<string> matchingWordsCombined = analyser.CompareLists(
+                    analyser.AnalyseText(experiences.ElementAt(expNr).description),
+                    matchingWordsVacancy);
 
                 score += (matchingWordsCombined.Count / matchingWordsVacancy.Count) * 100;
                 count++;
