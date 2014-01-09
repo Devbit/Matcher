@@ -95,7 +95,7 @@ namespace Matcher.Commander
                 return;
             }
             Console.Write(" Enter input: ");
-            string input = Console.ReadKey().KeyChar.ToString();
+            string input = Console.ReadLine();
             int result;
             if (int.TryParse(input, out result))
             {
