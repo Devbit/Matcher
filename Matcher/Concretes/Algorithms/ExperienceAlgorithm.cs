@@ -12,13 +12,13 @@ namespace Matcher.Algorithms
     class ExperienceAlgorithm : IAlgorithm
     {
         
-        public MatchFactor CalculateFactor<T>(List<Experience> experiences, int multiplier)
+        public MatchFactor CalculateFactor<T>(List<T> experiences, int multiplier)
         {
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
             int count = 0, score = 0;
             for (int expNr = 0; expNr < experiences.Count; expNr++)
             {
-                Experience exp = experiences.ElementAt(expNr);
+                T exp = experiences.ElementAt(expNr);
                 
                 // Get a list of terms related to ICT sector
                 // Compare all words in Description of experiences to that list
