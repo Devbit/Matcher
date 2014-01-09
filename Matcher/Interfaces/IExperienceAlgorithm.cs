@@ -8,8 +8,8 @@ using Communicator;
 
 namespace Matcher
 {
-    interface IAlgorithm
+    interface IExperienceAlgorithm
     {
-        MatchFactor CalculateFactor<T>(List<T> list, int multiplier);
+        MatchFactor CalculateFactor<T>(List<Experience> list, Vacancy vacancy, int multiplier);
     }
 }

@@ -81,7 +81,7 @@ namespace Matcher
                         List<Experience> experience = profile.experience;
                         if (experience != null)
                         {
-                            MatchFactor experienceFactor = new ExperienceAlgorithm().CalculateFactor<Experience>(experience, multiplierExp);
+                            MatchFactor experienceFactor = new ExperienceAlgorithm().CalculateFactor<Experience>(experience, vacancy, multiplierExp);
                             
                             if (experienceFactor != null)
                             {

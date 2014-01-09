@@ -53,10 +53,10 @@
     <Compile Include="Abstracts\MatchFactory.cs" />
     <Compile Include="Concretes\Algorithms\DiffAlgorithm.cs" />
     <Compile Include="Concretes\Algorithms\ExperienceAlgorithm.cs" />
-    <Compile Include="Concretes\Algorithms\LocationAlgorithm.cs" />
+    <Compile Include="Concretes\Algorithms\TextAnalyser.cs" />
     <Compile Include="Concretes\Factory\MatchFactor\CustomMatchFactorFactory.cs" />
     <Compile Include="Concretes\Factory\Match\CustomMatchFactory.cs" />
-    <Compile Include="Interfaces\IAlgorithm.cs" />
+    <Compile Include="Interfaces\IExperienceAlgorithm.cs" />
     <Compile Include="Interfaces\IMatchFactorFactory.cs" />
     <Compile Include="Interfaces\IMatchFactory.cs" />
     <Compile Include="Matcher.cs" />
@@ -65,6 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tags.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
