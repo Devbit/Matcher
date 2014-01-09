@@ -18,6 +18,7 @@ namespace Matcher
         public MatcherCommander(string link, bool buffering)
         {
             Processor = new Processor(link, buffering);
+            Processor.SetVacancyAmount(0);
         }
 
         public int GetMatcherCount()

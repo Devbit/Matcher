@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Communicator;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using Matcher.Algorithms;
 
 namespace Matcher
 {
@@ -18,7 +19,8 @@ namespace Matcher
         private string status = "";
 
         // Set multipliers per category
-        int multiplierExp = 5;
+        private int multiplierExp = 5;
+        private double MATCHREQ = 50.0;
 
         private Matcher() { }
 
@@ -50,51 +52,44 @@ namespace Matcher
         {
             List<Profile> profiles;
             List<Vacancy> vacancies;
-                    
-            // Variables for Matching   
-            int    multiplierCul = 0,       // All multipliers culumative
-                   scoreCul = 0;            // All score culumative
-            double MATCHREQ = 50.00;        // The minimum score to be considered a match
-            //   
 
             status = "init";
             Debug.WriteLine("Init");
+            MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
+            MatchFactory matchFactory = new CustomMatchFactory();
             while (_isRunning)
             {
                 /*  PRE ALPHA CODE
-                 *
+                 */
                 profiles = proc.GetNextProfiles();
                 vacancies = proc.GetNextVacancies();
                 
+                List<MatchFactor> matchFactors = new List<MatchFactor>();
+                
                 // Matching Algorithm
-                for (int profileNr = 0; profileNr < profiles.Count(); profileNr++ )
+                for (int profileNr = 0; profileNr < profiles.Count; profileNr++ )
                 {
                     Profile profile = profiles.ElementAt(profileNr);
-                    
-                    for (int vacancyNr = 0; vacancyNr < vacancies.Count(); vacancyNr++ )
+                    Debug.WriteLine(profile);
+                    for (int vacancyNr = 0; vacancyNr < vacancies.Count; vacancyNr++ )
                     {
                         Vacancy vacancy = vacancies.ElementAt(vacancyNr);
-
-
-                        /* ----- COMPARE ALL ELEMENTS ----- *
+                        Debug.WriteLine(vacancy);
+                        /* ----- COMPARE ALL ELEMENTS ----- */
                         
-                        /* EXPERIENCE SCORE *
-                        int totalExp = 0, scoreExp = 0;
+                        // Experience
+                        
                         List<Experience> experience = profile.experience;
-
-                        for ( int expNr = 0; expNr < experience.Count(); expNr++ )
+                        if (experience != null)
                         {
-                            experience.ElementAt(expNr);
-                            // Even bespreken
-                            totalExp++;
+                            MatchFactor experienceFactor = new ExperienceAlgorithm().CalculateFactor<Experience>(
+                            experience, multiplierExp);
+                            if (experienceFactor != null)
+                            {
+                                matchFactors.Add(experienceFactor);
+                            }
                         }
-                        // Gemiddelde voor eerlijke score
-                        if (totalExp != 0 && scoreExp != 0)
-                        {
-                            scoreCul += ((scoreExp / totalExp) * 100) * multiplierExp;
-                            multiplierCul += multiplierExp;
-                        }
-
+                        
                         /* OTHER CATEGORY */
                         
 
@@ -103,20 +98,30 @@ namespace Matcher
                         /*
                          * Hier moeten we nog even een oplossing voor zoeken aangezien het algoritme wat ik heb gemaakt
                          * is niet toepasbaar. Nieuwe berekening van score is vereist
-                         *
+                         */
 
 
                         
                         // Strength is the percentage a profile matches with a vacancy.
-                        double strength = (scoreCul / multiplierCul) * 100;
+                        double scoreCul = 0.0, multiplierCul = 0.0, strength = 0.0;
+                        foreach (MatchFactor fact in matchFactors)
+                        {
+                            scoreCul += fact.strength * fact.multiplier;
+                            multiplierCul += fact.multiplier;
+                        }
+                        if (scoreCul > 0.0 && multiplierCul > 0.0)
+                        {
+                            strength = (scoreCul / multiplierCul) * 100;
+                        }
 
                         // When strength is above the Match requirement, a match will be created.
                         if (strength >= MATCHREQ)
                         {
-                            new CustomMatchFactory(profile, vacancy, /* Factors *, strength);
+                            Match match = matchFactory.CreateMatch(profile, vacancy, matchFactors, strength);
                             strength = 0;
                             scoreCul = 0;
                             multiplierCul = 0;
+                            matchFactors = new List<MatchFactor>();
                         }
                     }
                 }
