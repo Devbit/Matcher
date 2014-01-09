@@ -23,19 +23,7 @@ namespace Matcher.Algorithms
             for (int expNr = 0; expNr < experiences.Count; expNr++)
             {                
                 
-                Experience experience = experiences.ElementAt(expNr);
-
-                // Get a list of terms related to ICT sector vv
-                // Compare all words in Description of experiences to that list
-                // Save all the words which are more than 90% the same
-                // Compare all words in Description of vacancy with the list  <
-                // Save all the words which are more than 90% the same         \
-                // Compare BOTH list of words together                          \
-                // Score will be determined by taking (BOTH WORDS TOGETHER / AMOUNT WORDS FOUND IN VACANCY LIST) * 100
-
-
-
-                List<string> matchingWordsExperience = analyser.AnalyseText(experience.description);
+                List<string> matchingWordsExperience = analyser.AnalyseText(experiences.ElementAt(expNr).description);
                 List<string> matchingWordsVacancy = analyser.AnalyseText(vacancy.details.ToString());
                 List<string> matchingWordsCombined = analyser.CompareLists(matchingWordsExperience, matchingWordsVacancy);
 
