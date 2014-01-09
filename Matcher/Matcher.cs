@@ -78,31 +78,24 @@ namespace Matcher
                         /* ----- COMPARE ALL ELEMENTS ----- */
                         
                         // Experience
-                        
                         List<Experience> experience = profile.experience;
                         if (experience != null)
                         {
-                            MatchFactor experienceFactor = new ExperienceAlgorithm().CalculateFactor<Experience>(
-                            experience, multiplierExp);
+                            MatchFactor experienceFactor = new ExperienceAlgorithm().CalculateFactor<Experience>(experience, multiplierExp);
+                            
                             if (experienceFactor != null)
                             {
                                 matchFactors.Add(experienceFactor);
                             }
                         }
                         
-                        /* OTHER CATEGORY */
-                        
+                        // Category
 
 
-
-                        /*
-                         * Hier moeten we nog even een oplossing voor zoeken aangezien het algoritme wat ik heb gemaakt
-                         * is niet toepasbaar. Nieuwe berekening van score is vereist
-                         */
-
+                  
 
                         
-                        // Strength is the percentage a profile matches with a vacancy.
+                        // Calculating Strength of a profile with a vacancy
                         double scoreCul = 0.0, multiplierCul = 0.0, strength = 0.0;
                         foreach (MatchFactor fact in matchFactors)
                         {
