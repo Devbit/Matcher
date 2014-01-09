@@ -18,7 +18,7 @@ namespace Matcher.Commander
             Console.SetWindowSize(_Header.Length, 10);
             Console.BufferWidth = _Header.Length;
             Console.BufferHeight = 10;
-            commander = new MatcherCommander("http://127.0.0.1:5000", false);
+            commander = new MatcherCommander("http://127.0.0.1:28000", false);
             WriteMainMenu();
         }
 

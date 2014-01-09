@@ -32,10 +32,13 @@
   <ItemGroup>
     <Reference Include="Communicator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Communicator.0.27\lib\net45\Communicator.dll</HintPath>
+      <HintPath>..\packages\Communicator.0.32\lib\net45\Communicator.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,15 +51,19 @@
   <ItemGroup>
     <Compile Include="Abstracts\MatchFactorFactory.cs" />
     <Compile Include="Abstracts\MatchFactory.cs" />
+    <Compile Include="Concretes\Algorithms\ExperienceAlgorithm.cs" />
     <Compile Include="Concretes\Factory\MatchFactor\CustomMatchFactorFactory.cs" />
     <Compile Include="Concretes\Factory\Match\CustomMatchFactory.cs" />
+    <Compile Include="Interfaces\IAlgorithm.cs" />
     <Compile Include="Interfaces\IMatchFactorFactory.cs" />
     <Compile Include="Interfaces\IMatchFactory.cs" />
     <Compile Include="Matcher.cs" />
     <Compile Include="MatcherCommander.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
