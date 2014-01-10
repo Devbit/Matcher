@@ -9,6 +9,6 @@ namespace Matcher
 {
     interface ISkillAlgorithm
     {
-        MatchFactor CalculateFactor<T>(string[] skills, Vacancy vacancy, int multiplier);
+        MatchFactor CalculateFactor<T>(List<string> skills, Vacancy vacancy, int multiplier);
     }
 }

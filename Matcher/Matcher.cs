@@ -8,6 +8,7 @@ using Communicator;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using Matcher.Algorithms;
+using Matcher.Concretes.Algorithms;
 
 namespace Matcher
 {
@@ -20,6 +21,7 @@ namespace Matcher
 
         // Set multipliers per category
         private int multiplierExp = 5;
+        private int multiplierSkills = 5;
         private double MATCHREQ = 50.0;
 
         private Matcher() { }
@@ -89,12 +91,21 @@ namespace Matcher
                             }
                         }
                         
-                        // Category
+                        // Skills
+                        List<string> skills = profile.skills;
+                        if (skills != null)
+                        {
+                            MatchFactor skillFactor = new SkillAlgorithm().CalculateFactor<string>(skills, vacancy, multiplierSkills);
+                            
+                            if(skillFactor != null)
+                            {
+                                matchFactors.Add(skillFactor);
+                            }
+                        }
+
+                        //
 
 
-                  
-
-                        
                         // Calculating Strength of a profile with a vacancy
                         double scoreCul = 0.0, multiplierCul = 0.0, strength = 0.0;
                         foreach (MatchFactor fact in matchFactors)
@@ -131,5 +142,6 @@ namespace Matcher
             Commander.FinishMatcher(this);
             
         }
+
     }
 }
