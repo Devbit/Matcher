@@ -1,7 +1,9 @@
 ﻿using my.utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,9 +15,9 @@ namespace Matcher.Concretes.Algorithms
         List<string> tags = new List<string>();
         int limit;
 
-        public TextAnalyser(int limit)
+        public TextAnalyser(int limit, int pages)
         {
-            fillTags();
+            tags = fillTags(pages);
             this.limit = limit;
         }
 
@@ -55,8 +57,35 @@ namespace Matcher.Concretes.Algorithms
         }
 
 
-        private void fillTags()
+        private List<string> fillTags(int pages)
         {
+            // Nieuwe oplossing met API van Stackoverflow
+            List<dynamic> jsonResult = new List<dynamic>();
+
+            for (int i = 0; i < pages; i++)
+            {
+                jsonResult.Add(JsonConvert.DeserializeObject(new WebClient().DownloadString("http://api.stackoverflow.com/1.1/tags?pagesize=100&page=" + (i+1))));
+            }
+
+            string filler = "";
+            for (int i = 0; i < pages; i++)
+            {
+                filler += "" + jsonResult.ElementAt(i).tags.name;
+                if (i >= pages - 1)
+                {
+                    filler += ",";
+                }
+            }
+
+            List<string> result = filler.Split(',').ToList();
+
+            return result;
+        }
+
+        private void fillTags() // unused, delete in final.
+        {
+
+            // Oude oplossing dmv .txt
             int counter = 0;
             string line;
 
@@ -70,7 +99,5 @@ namespace Matcher.Concretes.Algorithms
 
             file.Close();
         }
-
-
     }
 }

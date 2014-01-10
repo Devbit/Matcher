@@ -16,7 +16,7 @@ namespace Matcher.Algorithms
         // Matched Experience
         public MatchFactor CalculateFactor<T>(List<Experience> experiences, Vacancy vacancy, int multiplier)
         {
-            TextAnalyser analyser = new TextAnalyser(5);
+            TextAnalyser analyser = new TextAnalyser(5, 10);
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
 
             int count = 0, score = 0;

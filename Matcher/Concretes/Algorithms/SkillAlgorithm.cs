@@ -11,7 +11,7 @@ namespace Matcher.Concretes.Algorithms
     {
         public MatchFactor CalculateFactor<T>(string[] skills, Vacancy vacancy, int multiplier)
         {
-            TextAnalyser analyser = new TextAnalyser(5);
+            TextAnalyser analyser = new TextAnalyser(5, 10);
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
 
             int score = 0;
@@ -22,7 +22,15 @@ namespace Matcher.Concretes.Algorithms
                 analyseThis += " " + skills[i];
             }
 
-            List<string> analysed = analyser.AnalyseText(analyseThis);
+            List<string> analysedProfile = analyser.AnalyseText(analyseThis);
+            List<string> analysedVacancy = analyser.AnalyseText(vacancy.details.ToString());
+
+            List<string> comparedList = analyser.CompareLists(analysedProfile, analysedVacancy);
+
+            if (analysedProfile.Count != 0 && analysedVacancy.Count != 0)
+            {
+                score += (comparedList.Count / Math.Min(analysedVacancy.Count, analysedProfile.Count)) * 100;
+            }
 
             MatchFactor skillFactor = new MatchFactor();
             return skillFactor;
