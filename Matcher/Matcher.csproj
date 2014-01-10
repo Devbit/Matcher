@@ -53,12 +53,14 @@
     <Compile Include="Abstracts\MatchFactory.cs" />
     <Compile Include="Concretes\Algorithms\DiffAlgorithm.cs" />
     <Compile Include="Concretes\Algorithms\ExperienceAlgorithm.cs" />
+    <Compile Include="Concretes\Algorithms\SkillAlgorithm.cs" />
     <Compile Include="Concretes\Algorithms\TextAnalyser.cs" />
     <Compile Include="Concretes\Factory\MatchFactor\CustomMatchFactorFactory.cs" />
     <Compile Include="Concretes\Factory\Match\CustomMatchFactory.cs" />
     <Compile Include="Interfaces\IExperienceAlgorithm.cs" />
     <Compile Include="Interfaces\IMatchFactorFactory.cs" />
     <Compile Include="Interfaces\IMatchFactory.cs" />
+    <Compile Include="Interfaces\ISkillAlgorithm.cs" />
     <Compile Include="Matcher.cs" />
     <Compile Include="MatcherCommander.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

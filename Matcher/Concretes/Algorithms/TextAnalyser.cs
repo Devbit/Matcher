@@ -1,4 +1,5 @@
-﻿using System;
+﻿using my.utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,12 @@ namespace Matcher.Concretes.Algorithms
     {
 
         List<string> tags = new List<string>();
+        int limit;
 
-        public TextAnalyser()
+        public TextAnalyser(int limit)
         {
             fillTags();
+            this.limit = limit;
         }
 
         public List<string> AnalyseText(string x)
@@ -23,7 +26,7 @@ namespace Matcher.Concretes.Algorithms
             for (int i = 0; i < tags.Count; i++)
             {
 
-                if (x.ToLower().Contains(tags.ElementAt(i).ToLower()))
+                if (DiffAlgorithm.verifyDiff(x.ToLower(), tags.ElementAt(i).ToLower(), limit))
                 {
                     list.Add(tags.ElementAt(i).ToLower());
                 }

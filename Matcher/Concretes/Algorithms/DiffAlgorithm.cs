@@ -22,6 +22,16 @@ namespace my.utils
             internal int x, y;
         }
 
+        public static bool verifyDiff(string TextA, string TextB, int limit)
+        {
+            if( DiffText(TextA, TextB, false, false, false).Length < limit )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public Item[] DiffText(string TextA, string TextB) 
         {
             return (DiffText(TextA, TextB, false, false, false));
