@@ -1,5 +1,4 @@
-﻿using my.utils;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +10,36 @@ namespace Matcher.Concretes.Algorithms
 {
     class TextAnalyser
     {
+        List<string> tags;
 
-        List<string> tags = new List<string>();
-        int limit;
-
-        public TextAnalyser(int limit, int pages)
+        public TextAnalyser(int pages, string downloadString)
         {
-            tags = fillTags(pages);
-            this.limit = limit;
+            tags = fillTags(pages, downloadString);
+        }
+
+        public TextAnalyser(string location)
+        {
+            tags = fillTags(location);
         }
 
         public List<string> AnalyseText(string x)
         {
+            return AnalyseText(x, tags);
+        }
+
+        public List<string> AnalyseText(string x, List<string> tags)
+        {
+            if (tags == null)
+            {
+                return null;
+            }
+
             List<string> list = new List<string>();
 
             for (int i = 0; i < tags.Count; i++)
             {
 
-                if (DiffAlgorithm.verifyDiff(x.ToLower(), tags.ElementAt(i).ToLower(), limit))
+                if (x.ToLower().Contains(tags.ElementAt(i).ToLower()))
                 {
                     list.Add(tags.ElementAt(i).ToLower());
                 }
@@ -57,14 +68,14 @@ namespace Matcher.Concretes.Algorithms
         }
 
 
-        private List<string> fillTags(int pages)
+        private List<string> fillTags(int pages, string downloadString)
         {
             // Nieuwe oplossing met API van Stackoverflow
             List<dynamic> jsonResult = new List<dynamic>();
 
             for (int i = 0; i < pages; i++)
             {
-                jsonResult.Add(JsonConvert.DeserializeObject(new WebClient().DownloadString("http://api.stackoverflow.com/1.1/tags?pagesize=100&page=" + (i+1))));
+                jsonResult.Add(JsonConvert.DeserializeObject(new WebClient().DownloadString(downloadString + (i+1))));
             }
 
             string filler = "";
@@ -82,22 +93,33 @@ namespace Matcher.Concretes.Algorithms
             return result;
         }
 
-        private void fillTags() // unused, delete in final.
+        private List<string> fillTags(string location)
         {
-
-            // Oude oplossing dmv .txt
+            List<string> list = new List<string>();
+                
             int counter = 0;
             string line;
 
             System.IO.StreamReader file =
-               new System.IO.StreamReader("tags.txt");
+               new System.IO.StreamReader(location);
             while ((line = file.ReadLine()) != null)
             {
-                tags.Add(line.ToLower());
+                list.Add(line.ToLower());
                 counter++;
             }
 
             file.Close();
+
+            if (list.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return list;
+            }
+
+            
         }
     }
 }

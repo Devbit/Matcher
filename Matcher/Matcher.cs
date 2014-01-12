@@ -22,6 +22,7 @@ namespace Matcher
         // Set multipliers per category
         private int multiplierExp = 5;
         private int multiplierSkills = 5;
+        private int multiplierLanguages = 2;
         private double MATCHREQ = 50.0;
 
         private Matcher() { }
@@ -103,7 +104,16 @@ namespace Matcher
                             }
                         }
 
-                        //
+                        // Languages
+                        List<Language> languages = profile.languages;
+                        if (languages != null)
+                        {
+                            MatchFactor languageFactor = new LanguageAlgorithm().CalculateFactor<Language>(languages, vacancy, multiplierLanguages);
+                            if(languageFactor != null)
+                            {
+                                matchFactors.Add(languageFactor);
+                            }
+                        }
 
 
                         // Calculating Strength of a profile with a vacancy
