@@ -1,4 +1,13 @@
-﻿using System;
+﻿//           ■■■■   ■■■■■■              
+//           ■■■■   ■■■■■■       © Copyright 2014         
+//           ■■■■         ■■■     _____             _     _ _           _
+//           ■■■■   ■■■   ■■■    |  __ \           | |   (_) |         | |
+//           ■■■■   ■■■   ■■■    | |  | | _____   _| |__  _| |_   _ __ | |
+//           ■■■■         ■■■    | |  | |/ _ \ \ / / '_ \| | __| | '_ \| |     
+//           ■■■■■■■■■■■■■       | |__| |  __/\ V /| |_) | | |_ _| | | | |
+//           ■■■■■■■■■■■■■       |_____/ \___| \_/ |_.__/|_|\__(_)_| |_|_|
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,60 +69,63 @@ namespace Matcher
             Debug.WriteLine("Init");
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
             MatchFactory matchFactory = new CustomMatchFactory();
+
+            /*  START MATCHING  */
+            Debug.WriteLine("Start");
+            status = "matching";
+
+
             while (_isRunning)
             {
-                /*  PRE ALPHA CODE
-                 */
                 profiles = proc.GetNextProfiles();
                 vacancies = proc.GetNextVacancies();
                 
                 List<MatchFactor> matchFactors = new List<MatchFactor>();
                 
                 // Matching Algorithm
-                for (int profileNr = 0; profileNr < profiles.Count; profileNr++ )
+                for (int profileNr = 0; profileNr < profiles.Count; profileNr++)
                 {
                     Profile profile = profiles.ElementAt(profileNr);
                     Debug.WriteLine(profile);
-                    for (int vacancyNr = 0; vacancyNr < vacancies.Count; vacancyNr++ )
+                    for (int vacancyNr = 0; vacancyNr < vacancies.Count; vacancyNr++)
                     {
                         Vacancy vacancy = vacancies.ElementAt(vacancyNr);
                         Debug.WriteLine(vacancy);
                         /* ----- COMPARE ALL ELEMENTS ----- */
-                        
+
                         // Experience
-                        List<Experience> experience = profile.experience;
-                        if (experience != null)
+                        if (profile.experience != null)
                         {
-                            MatchFactor experienceFactor = new ExperienceAlgorithm().CalculateFactor<Experience>(experience, vacancy, multiplierExp);
-                            
+                            MatchFactor experienceFactor = new ExperienceAlgorithm().CalculateFactor<Experience>(profile, vacancy, multiplierExp);
+
                             if (experienceFactor != null)
                             {
                                 matchFactors.Add(experienceFactor);
                             }
                         }
-                        
+
                         // Skills
-                        List<string> skills = profile.skills;
-                        if (skills != null)
+                        if (profile.skills != null)
                         {
-                            MatchFactor skillFactor = new SkillAlgorithm().CalculateFactor<string>(skills, vacancy, multiplierSkills);
-                            
-                            if(skillFactor != null)
+                            MatchFactor skillFactor = new SkillAlgorithm().CalculateFactor<string>(profile, vacancy, multiplierSkills);
+
+                            if (skillFactor != null)
                             {
                                 matchFactors.Add(skillFactor);
                             }
                         }
 
                         // Languages
-                        List<Language> languages = profile.languages;
-                        if (languages != null)
+                        if (profile.languages != null)
                         {
-                            MatchFactor languageFactor = new LanguageAlgorithm().CalculateFactor<Language>(languages, vacancy, multiplierLanguages);
-                            if(languageFactor != null)
+                            MatchFactor languageFactor = new LanguageAlgorithm().CalculateFactor<Language>(profile, vacancy, multiplierLanguages);
+                            if (languageFactor != null)
                             {
                                 matchFactors.Add(languageFactor);
                             }
                         }
+
+                        /* ----- END COMPARING ELEMENTS ----- */
 
 
                         // Calculating Strength of a profile with a vacancy
@@ -139,16 +151,11 @@ namespace Matcher
                         }
                     }
                 }
-
-                    
-
-                //*/
-                
-                Debug.WriteLine("Start");
-                status = "matching";
-                Thread.Sleep(5000);
-                //Debug.WriteLine("Done");
             }
+
+            Debug.WriteLine("Done");
+            /*  STOP MATCHING  */
+
             Commander.FinishMatcher(this);
             
         }

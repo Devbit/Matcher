@@ -57,11 +57,9 @@
     <Compile Include="Concretes\Algorithms\TextAnalyser.cs" />
     <Compile Include="Concretes\Factory\MatchFactor\CustomMatchFactorFactory.cs" />
     <Compile Include="Concretes\Factory\Match\CustomMatchFactory.cs" />
-    <Compile Include="Interfaces\IExperienceAlgorithm.cs" />
-    <Compile Include="Interfaces\ILanguageAlgorithm.cs" />
     <Compile Include="Interfaces\IMatchFactorFactory.cs" />
     <Compile Include="Interfaces\IMatchFactory.cs" />
-    <Compile Include="Interfaces\ISkillAlgorithm.cs" />
+    <Compile Include="Interfaces\IAlgorithm.cs" />
     <Compile Include="Matcher.cs" />
     <Compile Include="MatcherCommander.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

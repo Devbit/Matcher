@@ -1,19 +1,31 @@
 ﻿using Communicator;
 using System;
 using System.Collections.Generic;
+//           ■■■■   ■■■■■■              
+//           ■■■■   ■■■■■■       © Copyright 2014         
+//           ■■■■         ■■■     _____             _     _ _           _
+//           ■■■■   ■■■   ■■■    |  __ \           | |   (_) |         | |
+//           ■■■■   ■■■   ■■■    | |  | | _____   _| |__  _| |_   _ __ | |
+//           ■■■■         ■■■    | |  | |/ _ \ \ / / '_ \| | __| | '_ \| |     
+//           ■■■■■■■■■■■■■       | |__| |  __/\ V /| |_) | | |_ _| | | | |
+//           ■■■■■■■■■■■■■       |_____/ \___| \_/ |_.__/|_|\__(_)_| |_|_|
+
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Matcher.Concretes.Algorithms
 {
-    class LanguageAlgorithm
+    class LanguageAlgorithm : IAlgorithm
     {
         TextAnalyser textAnalyser = new TextAnalyser("ext_resources/languages.txt");
         
 
-        public MatchFactor CalculateFactor<T>(List<Language> languages, Vacancy vacancy, int multiplier)
+        public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier)
         {
+            List<Language> languages = profile.languages;
+            
             List<string> vacancyLanguage = textAnalyser.AnalyseText(vacancy.details.advert_html.ToLower());
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
 
@@ -30,7 +42,7 @@ namespace Matcher.Concretes.Algorithms
                 
                 double strength = 0;
 
-                if (comparedList.Count != 0 && comparedList.Count != null)
+                if (comparedList.Count != 0)
                 {
                     strength = (comparedList.Count / Math.Min(vacancyLanguage.Count, profileLanguages.Count)) * 100;
                 }
