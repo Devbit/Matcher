@@ -21,7 +21,8 @@ namespace Matcher.Commander
 {
     class Program
     {
-        private static string _Header = " -=Devbit Ultimate Super Matcher 2014=- ";
+        private static string _Header = "Devbit Ultimate Super Matcher 2014";
+
         private static MatcherCommander commander;
         static void Main(string[] args)
         {
