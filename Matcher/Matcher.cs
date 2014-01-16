@@ -34,12 +34,46 @@ namespace Matcher
         private int multiplierLanguages = 2;
         private double MATCHREQ = 50.0;
 
+        private const string MatchLink = "matches";
+
         private Matcher() { }
 
         public Matcher(Processor processor, MatcherCommander commander)
         {
             proc = processor;
             Commander = commander;
+        }
+
+        private void SaveMatch(Match match)
+        {
+            JsonMatch jsonMatch = new JsonMatch();
+            jsonMatch.profile = match.profile._id;
+            jsonMatch.vacancy = match.vacancy._id;
+            jsonMatch.factors = match.factors;
+            jsonMatch.strength = match.strength;
+            jsonMatch.date_created = new DateTime().ToString("yyyyMMddHHmmss");
+            jsonMatch._id = CreateMD5Hash(jsonMatch.profile + ":" + jsonMatch.vacancy);
+            string jsonString = JsonConvert.SerializeObject(jsonMatch);
+            processor.InsertDocument(jsonString, MatchLink);
+        }
+
+        private string CreateMD5Hash(string input)
+        {
+            // Use input string to calculate MD5 hash
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+            // Convert the byte array to hexadecimal string
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                sb.Append(hashBytes[i].ToString("x2"));
+                // To force the hex string to lower-case letters instead of
+                // upper-case, use he following line instead:
+                // sb.Append(hashBytes[i].ToString("x2")); 
+            }
+            return sb.ToString();
         }
 
         public string GetStatus()
@@ -148,6 +182,7 @@ namespace Matcher
                             scoreCul = 0;
                             multiplierCul = 0;
                             matchFactors = new List<MatchFactor>();
+                            SaveMatch(match);
                         }
                     }
                 }
