@@ -1,4 +1,14 @@
-﻿using System.Reflection;
+﻿//           ■■■■   ■■■■■■              
+//           ■■■■   ■■■■■■       © Copyright 2014         
+//           ■■■■         ■■■     _____             _     _ _           _
+//           ■■■■   ■■■   ■■■    |  __ \           | |   (_) |         | |
+//           ■■■■   ■■■   ■■■    | |  | | _____   _| |__  _| |_   _ __ | |
+//           ■■■■         ■■■    | |  | |/ _ \ \ / / '_ \| | __| | '_ \| |     
+//           ■■■■■■■■■■■■■       | |__| |  __/\ V /| |_) | | |_ _| | | | |
+//           ■■■■■■■■■■■■■       |_____/ \___| \_/ |_.__/|_|\__(_)_| |_|_|
+
+
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
