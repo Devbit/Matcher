@@ -121,62 +121,24 @@ namespace Matcher.Algorithms
             int year = 0;
             int month = 0;
 
-            if (date.Contains("januari") || date.Contains("january"))
+            if (date.Length >= 7) // YYYY-MM-DD
+            {
+                month = Convert.ToInt32(date.Substring(5, 2));
+                year = Convert.ToInt32(date.Substring(0, 4));
+            }
+            else if (date != null)// YYYY or error
             {
                 month = 1;
-            }
-            else if (date.Contains("februari") || date.Contains("february"))
-            {
-                month = 2;
-            }
-            else if (date.Contains("maart") || date.Contains("march"))
-            {
-                month = 3;
-            }
-            else if (date.Contains("april"))
-            {
-                month = 4;
-            }
-            else if (date.Contains("mei") || date.Contains("may"))
-            {
-                month = 5;
-            }
-            else if (date.Contains("juni") || date.Contains("june"))
-            {
-                month = 6;
-            }
-            else if (date.Contains("juli") || date.Contains("july"))
-            {
-                month = 7;
-            }
-            else if (date.Contains("augustus") || date.Contains("august"))
-            {
-                month = 8;
-            }
-            else if (date.Contains("september"))
-            {
-                month = 9;
-            }
-            else if (date.Contains("oktober"))
-            {
-                month = 10;
-            }
-            else if (date.Contains("november"))
-            {
-                month = 11;
-            }
-            else if (date.Contains("december"))
-            {
-                month = 12;
-            }
-            if (month > 0)
-            {
-                year = Convert.ToInt32(date.Substring(0, Math.Max(0, date.Length - 4))) * 100;
+                year = Convert.ToInt32(date.Substring(Math.Min(0, 4)));
             }
             else
             {
-                year = Convert.ToInt32(date)*100;
+                int returnValue = Convert.ToInt32(DateTime.UtcNow.Date.ToString("yyyyMM"));
+                return returnValue;
             }
+
+            year = year * 100;
+            
 
             return (month + year);
         }
