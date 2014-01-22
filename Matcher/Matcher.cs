@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using Matcher.Algorithms;
 using Matcher.Concretes.Algorithms;
+using Newtonsoft.Json;
 
 namespace Matcher
 {
@@ -54,7 +56,7 @@ namespace Matcher
             jsonMatch.date_created = new DateTime().ToString("yyyyMMddHHmmss");
             jsonMatch._id = CreateMD5Hash(jsonMatch.profile + ":" + jsonMatch.vacancy);
             string jsonString = JsonConvert.SerializeObject(jsonMatch);
-            processor.InsertDocument(jsonString, MatchLink);
+            proc.InsertDocument(jsonString, MatchLink);
         }
 
         private string CreateMD5Hash(string input)
@@ -171,19 +173,21 @@ namespace Matcher
                         }
                         if (scoreCul > 0.0 && multiplierCul > 0.0)
                         {
-                            strength = (scoreCul / multiplierCul) * 100;
+                            strength = (scoreCul / multiplierCul);
                         }
 
                         // When strength is above the Match requirement, a match will be created.
                         if (strength >= MATCHREQ)
                         {
                             Match match = matchFactory.CreateMatch(profile, vacancy, matchFactors, strength);
-                            strength = 0;
-                            scoreCul = 0;
-                            multiplierCul = 0;
-                            matchFactors = new List<MatchFactor>();
                             SaveMatch(match);
                         }
+                        //RESET
+                        strength = 0;
+                        scoreCul = 0;
+                        multiplierCul = 0;
+                        matchFactors = new List<MatchFactor>();
+                        
                     }
                 }
             }

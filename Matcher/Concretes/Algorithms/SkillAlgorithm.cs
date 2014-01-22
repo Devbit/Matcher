@@ -40,9 +40,9 @@ namespace Matcher.Concretes.Algorithms
 
             List<string> comparedList = analyser.CompareLists(analysedProfile, analysedVacancy);
 
-            if (comparedList.Count != 0)
+            if (comparedList.Count > 0 && analysedProfile.Count > 0 && analysedVacancy.Count > 0)
             {
-                strength = (comparedList.Count / Math.Min(analysedVacancy.Count, analysedProfile.Count)) * 100;
+                strength = (comparedList.Count / analysedVacancy.Count) * 100;
             }
 
             MatchFactor skillFactor = matchFactorFactory.CreateMatchFactor("Skills", "", strength, multiplier);

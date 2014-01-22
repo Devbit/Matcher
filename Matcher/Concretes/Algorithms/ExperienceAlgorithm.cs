@@ -38,16 +38,22 @@ namespace Matcher.Algorithms
                 Experience experience = experiences.ElementAt(expNr);
 
                 List<string> matchingWordsExperience = analyser.AnalyseText(experience.description);
-                matchingWordsExperience.AddRange(analyser.AnalyseText(experience.details)); // Also check experience Details
-                matchingWordsExperience.AddRange(analyser.AnalyseText(experience.title)); // Also check experience Title
-                matchingWordsExperience.Add(profile.interests);
-                matchingWordsExperience.Add(profile.specialties);
-                
-                for (int i = 0; i < profile.honors.Count; i++)
+                if (matchingWordsExperience != null)
                 {
-                    string honour = profile.honors.ElementAt(i);
-                    matchingWordsExperience.Add(honour);
-                }                
+                    matchingWordsExperience.AddRange(analyser.AnalyseText(experience.details)); // Also check experience Details
+                    matchingWordsExperience.AddRange(analyser.AnalyseText(experience.title)); // Also check experience Title
+                    matchingWordsExperience.Add(profile.interests);
+                    matchingWordsExperience.Add(profile.specialties);
+                }
+
+                if (profile.honors != null)
+                {
+                    for (int i = 0; i < profile.honors.Count; i++)
+                    {
+                        string honour = profile.honors.ElementAt(i);
+                        matchingWordsExperience.Add(honour);
+                    }  
+                }        
 
                 List<string> matchingWordsVacancy = analyser.AnalyseText(vacancy.details.advert_html);
                 List<string> matchingWordsCombined = analyser.CompareLists(
@@ -63,21 +69,27 @@ namespace Matcher.Algorithms
                 // Systeem voor gewerkte tijd per experience.
                 string start = experience.start;
                 string end = experience.end;
-                int startInteger;
-                int endInteger;
+                int startInteger = 0;
+                int endInteger = 0;
 
-                if (end.Equals("Present") || end.Equals("Heden"))
+                if (end != null && (end.ToLower().Equals("present") || end.ToLower().Equals("heden")))
                 {
                     endInteger = Convert.ToInt32(DateTime.UtcNow.Date.ToString("yyyyMM"));
                 }
-                else
+                else if (end != null)
                 {
                     endInteger = TranslateDate(end);
                 }
 
-                startInteger = TranslateDate(start);
-
-                int timeWorked = FixDateInt(endInteger - startInteger);
+                if (start != null)
+                {
+                    startInteger = TranslateDate(start);
+                }
+                int timeWorked = 0;
+                if (startInteger != 0 || endInteger != 0)
+                {
+                    timeWorked = FixDateInt(endInteger - startInteger);
+                }
 
                 if (timeWorked > 500)
                 {
@@ -157,16 +169,32 @@ namespace Matcher.Algorithms
             {
                 month = 12;
             }
-
-            year = Convert.ToInt32(date.Substring(Math.Max(0, date.Length - 4))) * 100;
+            if (month > 0)
+            {
+                year = Convert.ToInt32(date.Substring(0, Math.Max(0, date.Length - 4))) * 100;
+            }
+            else
+            {
+                year = Convert.ToInt32(date)*100;
+            }
 
             return (month + year);
         }
 
         private int FixDateInt(int dateInt)
         {
-            int monthFixed = Convert.ToInt32(Convert.ToString(dateInt).Substring(Math.Max(0, Convert.ToString(dateInt).Length - 2))) % 12;
-            return Convert.ToInt32(Convert.ToString(dateInt).Substring(0, 4)) + monthFixed;
+            string dateIntString = Convert.ToString(dateInt);
+            int partial = Math.Max(0, dateIntString.Length - 2);
+            string actualData = dateIntString.Substring(partial);
+            int monthFixed = Convert.ToInt32(actualData) % 12;
+
+            if (monthFixed == 0)
+            {
+                monthFixed = 1;
+            }
+            int year = Convert.ToInt32(dateIntString.Substring(0, partial)) * 100;
+            int result = year + monthFixed;
+            return result;
         }
                
     }

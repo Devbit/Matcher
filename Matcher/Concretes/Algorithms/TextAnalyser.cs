@@ -8,6 +8,7 @@
 //           ■■■■■■■■■■■■■        |_____/ \___| \_/ |_.__/|_|\__(_)_| |_|_|
 
 
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,15 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using RestSharp;
+using RestSharp.Deserializers;
 
 namespace Matcher.Concretes.Algorithms
 {
     class TextAnalyser
     {
-        List<string> tags;
+        static List<string> tags;
 
         public TextAnalyser(int pages, string downloadString)
         {
@@ -39,29 +43,37 @@ namespace Matcher.Concretes.Algorithms
 
         public List<string> AnalyseText(string x, List<string> tags)
         {
-            if (tags == null)
+            if (tags == null || x == null)
             {
                 return null;
             }
 
             List<string> list = new List<string>();
+            x = x.ToLower();
+            string tag, pattern;
+            Match m;
 
             for (int i = 0; i < tags.Count; i++)
             {
-
-                if (x.ToLower().Contains(tags.ElementAt(i).ToLower()))
+                tag = tags.ElementAt(i).Replace("+", "\\W");
+                pattern = @"(\s|\W)(?:" + tag + @")(\W|\s|$)";
+                m = Regex.Match(x, pattern);
+                if (m.Success)
                 {
-                    list.Add(tags.ElementAt(i).ToLower());
+                    list.Add(tags.ElementAt(i));
                 }
-
             }
-
+            list = list.Distinct().ToList();
             return list;
         }
 
         public List<string> CompareLists(List<string> list1, List<string> list2)
         {
             List<string> list = new List<string>();
+            if (list1 == null || list2 == null)
+            {
+                return list;
+            }
 
             for (int i = 0; i < list1.Count; i++)
                 {
@@ -80,27 +92,58 @@ namespace Matcher.Concretes.Algorithms
 
         private List<string> fillTags(int pages, string downloadString)
         {
-            // Nieuwe oplossing met API van Stackoverflow
-            List<dynamic> jsonResult = new List<dynamic>();
-
-            for (int i = 0; i < pages; i++)
+            if (tags == null)
             {
-                jsonResult.Add(JsonConvert.DeserializeObject(new WebClient().DownloadString(downloadString + (i+1))));
-            }
+                // Nieuwe oplossing met API van Stackoverflow
+                List<dynamic> jsonResult = new List<dynamic>();
+                string downloadResult = "";
+                var client = new RestClient("http://api.stackoverflow.com");
+                //var request = new RestRequest("1.1/tags");
+                client.AddHandler("application/json", new DynamicJsonDeserializer());
+                //request.AddParameter("pagesize", "100");
+                //request.
 
-            string filler = "";
-            for (int i = 0; i < pages; i++)
-            {
-                filler += "" + jsonResult.ElementAt(i).tags.name;
-                if (i >= pages - 1)
+                for (int i = 0; i < pages; i++)
                 {
-                    filler += ",";
+                    var request = new RestRequest("1.1/tags");
+                    request.AddParameter("pagesize", "100");
+                    string apiString = downloadString + (i + 1);
+                    request.AddParameter("page", i + 1);
+                    IRestResponse<JObject> response = client.Execute<JObject>(request);
+                    //downloadResult = client.DownloadString(apiString);
+                    jsonResult.Add(response.Data);
                 }
+
+                string filler = "";
+                for (int i = 0; i < pages; i++)
+                {
+                    var enumerator = ((JArray) jsonResult.ElementAt(i)["tags"]).GetEnumerator();
+                    while (enumerator.MoveNext())
+                    {
+                        var j = enumerator.Current;
+                        string tag = (j["name"].ToString()).ToLower();
+                        if (tag.Length < 2)
+                        {
+                            tag = " " + tag + " ";
+                        }
+                        filler += tag + ",";
+                    }
+                    if (i >= pages - 1)
+                    {
+                        filler += " ";
+                    }
+                }
+
+                List<string> result = filler.Split(',').ToList();
+                result.RemoveAt(result.Count - 1);
+
+                return result;
             }
-
-            List<string> result = filler.Split(',').ToList();
-
-            return result;
+            else
+            {
+                return tags;
+            }
+            
         }
 
         private List<string> fillTags(string location)
@@ -130,6 +173,18 @@ namespace Matcher.Concretes.Algorithms
             }
 
             
+        }
+    }
+
+    internal class DynamicJsonDeserializer : IDeserializer
+    {
+        public string RootElement { get; set; }
+        public string Namespace { get; set; }
+        public string DateFormat { get; set; }
+
+        public T Deserialize<T>(IRestResponse response)
+        {
+            return JsonConvert.DeserializeObject<dynamic>(response.Content);
         }
     }
 }
