@@ -79,9 +79,12 @@ namespace Matcher.Concretes.Algorithms
                 {
                     for (int j = 0; j < list2.Count; j++)
                     {
-                        if (list1.ElementAt(i).Equals(list2.ElementAt(j)))
+                        if (list1.ElementAt(i) != null || list2.ElementAt(j) != null)
                         {
-                            list.Add(list1.ElementAt(i));
+                            if (list1.ElementAt(i).Equals(list2.ElementAt(j)))
+                            {
+                                list.Add(list1.ElementAt(i));
+                            }
                         }
                     }
                 }
@@ -96,12 +99,9 @@ namespace Matcher.Concretes.Algorithms
             {
                 // Nieuwe oplossing met API van Stackoverflow
                 List<dynamic> jsonResult = new List<dynamic>();
-                string downloadResult = "";
                 var client = new RestClient("http://api.stackoverflow.com");
-                //var request = new RestRequest("1.1/tags");
                 client.AddHandler("application/json", new DynamicJsonDeserializer());
-                //request.AddParameter("pagesize", "100");
-                //request.
+
 
                 for (int i = 0; i < pages; i++)
                 {
@@ -110,7 +110,6 @@ namespace Matcher.Concretes.Algorithms
                     string apiString = downloadString + (i + 1);
                     request.AddParameter("page", i + 1);
                     IRestResponse<JObject> response = client.Execute<JObject>(request);
-                    //downloadResult = client.DownloadString(apiString);
                     jsonResult.Add(response.Data);
                 }
 

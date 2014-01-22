@@ -56,14 +56,20 @@ namespace Matcher.Algorithms
                 }        
 
                 List<string> matchingWordsVacancy = analyser.AnalyseText(vacancy.details.advert_html);
-                List<string> matchingWordsCombined = analyser.CompareLists(
+                List<string> matchingWordsCombined = new List<string>();
+
+                if (matchingWordsVacancy != null || matchingWordsExperience != null)
+                {
+                    matchingWordsCombined = analyser.CompareLists(
                     matchingWordsExperience,
                     matchingWordsVacancy);
+                }
+                
 
                 double preScore = 0;
                 if (matchingWordsCombined.Count != 0)
                 {
-                    preScore += (matchingWordsCombined.Count / Math.Min(matchingWordsVacancy.Count, matchingWordsExperience.Count)) * 100;
+                    preScore += (matchingWordsCombined.Count / matchingWordsVacancy.Count) * 100;
                 }
 
                 // Systeem voor gewerkte tijd per experience.

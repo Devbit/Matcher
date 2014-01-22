@@ -44,7 +44,7 @@ namespace Matcher.Concretes.Algorithms
 
                 if (comparedList.Count != 0)
                 {
-                    strength = (comparedList.Count / Math.Min(vacancyLanguage.Count, profileLanguages.Count)) * 100;
+                    strength = (comparedList.Count / vacancyLanguage.Count) * 100;
                 }
 
 

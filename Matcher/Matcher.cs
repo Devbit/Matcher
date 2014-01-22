@@ -34,11 +34,14 @@ namespace Matcher
         private int multiplierExp = 5;
         private int multiplierSkills = 5;
         private int multiplierLanguages = 2;
-        private double MATCHREQ = 50.0;
+        private double MATCHREQ = 20.0;
 
         private const string MatchLink = "matches";
 
-        private Matcher() { }
+        private Matcher() 
+        { 
+        
+        }
 
         public Matcher(Processor processor, MatcherCommander commander)
         {
@@ -182,6 +185,7 @@ namespace Matcher
                             Match match = matchFactory.CreateMatch(profile, vacancy, matchFactors, strength);
                             SaveMatch(match);
                         }
+
                         //RESET
                         strength = 0;
                         scoreCul = 0;
