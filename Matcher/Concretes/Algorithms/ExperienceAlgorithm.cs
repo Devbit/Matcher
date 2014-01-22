@@ -104,7 +104,7 @@ namespace Matcher.Algorithms
                 else
                 {
                     double threshold = 0.3;
-                    preScore *= 1.0 - threshold + (timeWorked / 500 * threshold);
+                    preScore = preScore * (1.0 - threshold + (timeWorked / 500 * threshold));
                 }
 
                 score += preScore;

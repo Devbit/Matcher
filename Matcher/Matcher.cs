@@ -125,11 +125,11 @@ namespace Matcher
                 for (int profileNr = 0; profileNr < profiles.Count; profileNr++)
                 {
                     Profile profile = profiles.ElementAt(profileNr);
-                    Debug.WriteLine(profile);
+                    Debug.WriteLine("Getting profile: " + profile._id);
                     for (int vacancyNr = 0; vacancyNr < vacancies.Count; vacancyNr++)
                     {
                         Vacancy vacancy = vacancies.ElementAt(vacancyNr);
-                        Debug.WriteLine(vacancy);
+                        Debug.WriteLine("Getting vacancy: " + vacancy._id);
                         /* ----- COMPARE ALL ELEMENTS ----- */
 
                         // Experience
@@ -166,11 +166,12 @@ namespace Matcher
 
                         /* ----- END COMPARING ELEMENTS ----- */
 
-
+                        //*Debug.WriteLine(matchFactors.Count);
                         // Calculating Strength of a profile with a vacancy
                         double scoreCul = 0.0, multiplierCul = 0.0, strength = 0.0;
                         foreach (MatchFactor fact in matchFactors)
                         {
+                            //*Debug.WriteLine("** " + scoreCul + " " + multiplierCul);
                             scoreCul += fact.strength * fact.multiplier;
                             multiplierCul += fact.multiplier;
                         }
@@ -186,7 +187,8 @@ namespace Matcher
                             SaveMatch(match);
                         }
 
-                        //RESET
+                        Debug.WriteLine("Profile (" + profile.name.fullname + ") matched Vacancy (" + vacancy._id + ") with " + strength + " stength.");
+                        // RESET
                         strength = 0;
                         scoreCul = 0;
                         multiplierCul = 0;
