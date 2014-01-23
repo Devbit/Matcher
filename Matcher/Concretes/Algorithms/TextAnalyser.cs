@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using RestSharp.Deserializers;
+using System.Diagnostics;
 
 namespace Matcher.Concretes.Algorithms
 {
@@ -64,12 +65,19 @@ namespace Matcher.Concretes.Algorithms
                 }
             }
             list = list.Distinct().ToList();
+            list.Remove("class");
+            list.Remove("div");
+            
+
             return list;
         }
 
         public List<string> CompareLists(List<string> list1, List<string> list2)
         {
             List<string> list = new List<string>();
+
+            Debug.WriteLineIf(list1 == null, "BUG: LIST 1 IS NULL! THIS SHOULDNT HAPPEN");
+            Debug.WriteLineIf(list2 == null, "BUG: LIST 2 IS NULL! THIS SHOULDNT HAPPEN");
             if (list1 == null || list2 == null)
             {
                 return list;

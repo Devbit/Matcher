@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Communicator;
 using Matcher.Concretes.Algorithms;
+using System.Diagnostics;
 
 namespace Matcher.Algorithms
 {
@@ -27,6 +28,8 @@ namespace Matcher.Algorithms
         {
             TextAnalyser analyser = new TextAnalyser(10, "http://api.stackoverflow.com/1.1/tags?pagesize=100&page=");
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
+
+            Debug.WriteLine("== START EXPERIENCE ==");
 
             List<Experience> experiences = profile.experience;
             
@@ -58,11 +61,9 @@ namespace Matcher.Algorithms
                 List<string> matchingWordsVacancy = analyser.AnalyseText(vacancy.details.advert_html);
                 List<string> matchingWordsCombined = new List<string>();
 
-                if (matchingWordsVacancy != null || matchingWordsExperience != null)
+                if (matchingWordsVacancy != null && matchingWordsExperience != null)
                 {
-                    matchingWordsCombined = analyser.CompareLists(
-                    matchingWordsExperience,
-                    matchingWordsVacancy);
+                    matchingWordsCombined = analyser.CompareLists(matchingWordsExperience, matchingWordsVacancy);
                 }
                 
 
@@ -109,11 +110,14 @@ namespace Matcher.Algorithms
 
                 score += preScore;
                 count++;
+
+
             }
 
             // Gemiddelde voor eerlijke score
             if (count != 0 && score != 0)
             {
+                
                 MatchFactor experienceFactor = matchFactorFactory.CreateMatchFactor("Experience", "", Convert.ToDouble(count) / score, multiplier);
                 return experienceFactor;
             }

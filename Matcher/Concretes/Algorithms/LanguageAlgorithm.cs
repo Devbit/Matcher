@@ -38,7 +38,12 @@ namespace Matcher.Concretes.Algorithms
                     profileLanguages.Add(languages.ElementAt(i).name.ToLower());
                 }
 
-                List<string> comparedList = textAnalyser.CompareLists(vacancyLanguage, profileLanguages);
+                List<string> comparedList = new List<string>();
+
+                if (vacancyLanguage != null && profileLanguages != null)
+                {
+                    comparedList = textAnalyser.CompareLists(vacancyLanguage, profileLanguages);
+                }
                 
                 double strength = 0;
 

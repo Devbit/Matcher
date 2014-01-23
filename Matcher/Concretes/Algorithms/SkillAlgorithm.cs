@@ -37,8 +37,13 @@ namespace Matcher.Concretes.Algorithms
             List<string> analysedProfile = analyser.AnalyseText(analyseThis);
             List<string> analysedVacancy = analyser.AnalyseText(vacancy.details.advert_html);
             analysedVacancy.AddRange(analyser.AnalyseText(vacancy.details.job_type)); // Also include the Jobtype for better accuracy
+            List<string> comparedList = new List<string>();
 
-            List<string> comparedList = analyser.CompareLists(analysedProfile, analysedVacancy);
+
+            if (analysedProfile != null && analysedVacancy != null)
+            {
+                comparedList = analyser.CompareLists(analysedProfile, analysedVacancy);
+            }
 
             if (comparedList.Count > 0 && analysedProfile.Count > 0 && analysedVacancy.Count > 0)
             {
