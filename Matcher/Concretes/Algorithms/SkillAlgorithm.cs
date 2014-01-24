@@ -11,6 +11,7 @@
 using Communicator;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,8 @@ namespace Matcher.Concretes.Algorithms
     {
         public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier)
         {
-            TextAnalyser analyser = new TextAnalyser(10, "http://api.stackoverflow.com/1.1/tags?pagesize=100&page=");
+            Debug.WriteLine("== START SKILLS ==");
+            TextAnalyser analyser = new TextAnalyser(20, "http://api.stackoverflow.com/1.1/tags?pagesize=100&page=");
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
 
             List<string> skills = profile.skills;
@@ -35,7 +37,27 @@ namespace Matcher.Concretes.Algorithms
             }
 
             List<string> analysedProfile = analyser.AnalyseText(analyseThis);
-            List<string> analysedVacancy = analyser.AnalyseText(vacancy.details.advert_html);
+
+            List<string> analysedVacancy = new List<string>();
+
+            if (vacancy.details.advert_html != null)
+            {
+                analysedVacancy.AddRange(analyser.AnalyseText(vacancy.details.advert_html));
+            }
+            if (vacancy.details.job_type != null)
+            {
+                analysedVacancy.AddRange(analyser.AnalyseText(vacancy.details.job_type));
+            }
+            if (vacancy.title != null)
+            {
+                analysedVacancy.AddRange(analyser.AnalyseText(vacancy.title));
+            }
+            if (vacancy.company != null)
+            {
+                analysedVacancy.AddRange(analyser.AnalyseText(vacancy.company));
+            }
+
+
             analysedVacancy.AddRange(analyser.AnalyseText(vacancy.details.job_type)); // Also include the Jobtype for better accuracy
             List<string> comparedList = new List<string>();
 
@@ -45,7 +67,7 @@ namespace Matcher.Concretes.Algorithms
                 comparedList = analyser.CompareLists(analysedProfile, analysedVacancy);
             }
 
-            if (comparedList.Count > 0 && analysedProfile.Count > 0 && analysedVacancy.Count > 0)
+            if (comparedList.Count > 0)
             {
                 strength = (comparedList.Count / analysedVacancy.Count) * 100;
             }

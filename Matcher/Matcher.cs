@@ -34,7 +34,6 @@ namespace Matcher
         private int multiplierExp = 5;
         private int multiplierSkills = 5;
         private int multiplierLanguages = 2;
-        private double MATCHREQ = 20.0;
 
         private const string MatchLink = "matches";
 
@@ -125,11 +124,9 @@ namespace Matcher
                 for (int profileNr = 0; profileNr < profiles.Count; profileNr++)
                 {
                     Profile profile = profiles.ElementAt(profileNr);
-                    Debug.WriteLine("Getting profile: " + profile._id);
                     for (int vacancyNr = 0; vacancyNr < vacancies.Count; vacancyNr++)
                     {
                         Vacancy vacancy = vacancies.ElementAt(vacancyNr);
-                        Debug.WriteLine("Getting vacancy: " + vacancy._id);
                         /* ----- COMPARE ALL ELEMENTS ----- */
 
                         // Experience
@@ -146,7 +143,7 @@ namespace Matcher
                         // Skills
                         if (profile.skills != null)
                         {
-                            MatchFactor skillFactor = new SkillAlgorithm().CalculateFactor<string>(profile, vacancy, multiplierSkills);
+                            MatchFactor skillFactor = new SkillAlgorithm().CalculateFactor<string>(profile, vacancy, multiplierSkills);                           
 
                             if (skillFactor != null)
                             {
@@ -171,7 +168,6 @@ namespace Matcher
                         double scoreCul = 0.0, multiplierCul = 0.0, strength = 0.0;
                         foreach (MatchFactor fact in matchFactors)
                         {
-                            //*Debug.WriteLine("** " + scoreCul + " " + multiplierCul);
                             scoreCul += fact.strength * fact.multiplier;
                             multiplierCul += fact.multiplier;
                         }
@@ -181,10 +177,11 @@ namespace Matcher
                         }
 
                         // When strength is above the Match requirement, a match will be created.
-                        if (strength >= MATCHREQ)
+                        if (strength > 0)
                         {
                             Match match = matchFactory.CreateMatch(profile, vacancy, matchFactors, strength);
                             SaveMatch(match);
+                            Debug.WriteLine("~ MATCH CREATED ~");
                         }
 
                         Debug.WriteLine("Profile (" + profile.name.fullname + ") matched Vacancy (" + vacancy._id + ") with " + strength + " stength.");

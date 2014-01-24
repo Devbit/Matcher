@@ -1,6 +1,7 @@
 ﻿using Communicator;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 //           ■■■■   ■■■■■■              
 //           ■■■■   ■■■■■■        © Copyright 2014         
 //           ■■■■         ■■■■     _____             _     _ _           _
@@ -25,7 +26,7 @@ namespace Matcher.Concretes.Algorithms
         public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier)
         {
             List<Language> languages = profile.languages;
-            
+            Debug.WriteLine("== START LANGUAGE ==");
             List<string> vacancyLanguage = textAnalyser.AnalyseText(vacancy.details.advert_html.ToLower());
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
 

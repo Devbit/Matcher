@@ -26,7 +26,7 @@ namespace Matcher.Algorithms
         // Matched Experience and Details
         public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier)
         {
-            TextAnalyser analyser = new TextAnalyser(10, "http://api.stackoverflow.com/1.1/tags?pagesize=100&page=");
+            TextAnalyser analyser = new TextAnalyser(20, "http://api.stackoverflow.com/1.1/tags?pagesize=100&page=");
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
 
             Debug.WriteLine("== START EXPERIENCE ==");
@@ -39,16 +39,28 @@ namespace Matcher.Algorithms
             for (int expNr = 0; expNr < experiences.Count; expNr++)
             {
                 Experience experience = experiences.ElementAt(expNr);
-
-                List<string> matchingWordsExperience = analyser.AnalyseText(experience.description);
-                if (matchingWordsExperience != null)
+                List<string> matchingWordsExperience = new List<string>();
+                 
+                if (experience.description != null)
+                {
+                    matchingWordsExperience.AddRange(analyser.AnalyseText(experience.description));
+                }
+                if (experience.details != null)
                 {
                     matchingWordsExperience.AddRange(analyser.AnalyseText(experience.details)); // Also check experience Details
+                }
+                if (experience.title != null)
+                {
                     matchingWordsExperience.AddRange(analyser.AnalyseText(experience.title)); // Also check experience Title
+                }
+                if (profile.interests != null)
+                {
                     matchingWordsExperience.Add(profile.interests);
+                }
+                if (profile.specialties != null)
+                {
                     matchingWordsExperience.Add(profile.specialties);
                 }
-
                 if (profile.honors != null)
                 {
                     for (int i = 0; i < profile.honors.Count; i++)
@@ -56,21 +68,40 @@ namespace Matcher.Algorithms
                         string honour = profile.honors.ElementAt(i);
                         matchingWordsExperience.Add(honour);
                     }  
-                }        
+                }
 
-                List<string> matchingWordsVacancy = analyser.AnalyseText(vacancy.details.advert_html);
+                List<string> matchingWordsVacancy = new List<string>();
+
+                if (vacancy.details.advert_html != null)
+                {
+                    matchingWordsVacancy.AddRange(analyser.AnalyseText(vacancy.details.advert_html));
+                }
+                if (vacancy.details.job_type != null)
+                {
+                    matchingWordsVacancy.AddRange(analyser.AnalyseText(vacancy.details.job_type));
+                }
+                if (vacancy.title != null)
+                {
+                    matchingWordsVacancy.AddRange(analyser.AnalyseText(vacancy.title));
+                }
+                if (vacancy.company != null)
+                {
+                    matchingWordsVacancy.AddRange(analyser.AnalyseText(vacancy.company));
+                }
+
+                
                 List<string> matchingWordsCombined = new List<string>();
 
                 if (matchingWordsVacancy != null && matchingWordsExperience != null)
                 {
                     matchingWordsCombined = analyser.CompareLists(matchingWordsExperience, matchingWordsVacancy);
                 }
-                
 
-                double preScore = 0;
-                if (matchingWordsCombined.Count != 0)
+
+                double preScore = 0.0;
+                if (matchingWordsVacancy.Count > 0)
                 {
-                    preScore += (matchingWordsCombined.Count / matchingWordsVacancy.Count) * 100;
+                    preScore = preScore + (matchingWordsCombined.Count / matchingWordsVacancy.Count) * 100;
                 }
 
                 // Systeem voor gewerkte tijd per experience.
@@ -100,7 +131,7 @@ namespace Matcher.Algorithms
 
                 if (timeWorked > 500)
                 {
-                    preScore *= 1;
+                    preScore = preScore * 1;
                 }
                 else
                 {
@@ -115,10 +146,10 @@ namespace Matcher.Algorithms
             }
 
             // Gemiddelde voor eerlijke score
-            if (count != 0 && score != 0)
+            if (count != 0 && score != 0)  
             {
-                
-                MatchFactor experienceFactor = matchFactorFactory.CreateMatchFactor("Experience", "", Convert.ToDouble(count) / score, multiplier);
+
+                MatchFactor experienceFactor = matchFactorFactory.CreateMatchFactor("Experience", "", score / Convert.ToDouble(count), multiplier);
                 return experienceFactor;
             }
             return null;
