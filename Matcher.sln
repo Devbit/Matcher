@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matcher", "Matcher\Matcher.csproj", "{82A3F7B4-15E8-43D1-B1F9-76E116809FD9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matcher.Commander", "Matcher.Console\Matcher.Commander.csproj", "{276A7954-95CA-425A-A2D4-42A6C709190A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CB37C4C9-C844-4D86-9CD3-535875B2C479}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +22,7 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{82A3F7B4-15E8-43D1-B1F9-76E116809FD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82A3F7B4-15E8-43D1-B1F9-76E116809FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82A3F7B4-15E8-43D1-B1F9-76E116809FD9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{82A3F7B4-15E8-43D1-B1F9-76E116809FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82A3F7B4-15E8-43D1-B1F9-76E116809FD9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{276A7954-95CA-425A-A2D4-42A6C709190A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
