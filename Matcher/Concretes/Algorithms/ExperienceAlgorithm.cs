@@ -43,7 +43,7 @@ namespace Matcher.Algorithms
                  
                 if (experience.description != null)
                 {
-                    matchingWordsExperience.AddRange(analyser.AnalyseText(experience.description));
+                    matchingWordsExperience.AddRange(analyser.AnalyseText(experience.description)); // Check description
                 }
                 if (experience.details != null)
                 {
@@ -54,12 +54,12 @@ namespace Matcher.Algorithms
                     matchingWordsExperience.AddRange(analyser.AnalyseText(experience.title)); // Also check experience Title
                 }
                 if (profile.interests != null)
-                {
-                    matchingWordsExperience.Add(profile.interests);
+                {                    
+                    matchingWordsExperience.AddRange(analyser.AnalyseText(profile.interests)); // And interests
                 }
                 if (profile.specialties != null)
                 {
-                    matchingWordsExperience.Add(profile.specialties);
+                    matchingWordsExperience.AddRange(analyser.AnalyseText(profile.specialties)); // And specialties
                 }
                 if (profile.honors != null)
                 {
