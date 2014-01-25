@@ -20,16 +20,23 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using RestSharp.Deserializers;
 using System.Diagnostics;
+using System.Collections.Concurrent;
 
 namespace Matcher.Concretes.Algorithms
 {
     class TextAnalyser
     {
-        static List<string> tags;
+        private List<string> tags;
 
+        // Constructors
         public TextAnalyser(int pages, string downloadString)
         {
             tags = fillTags(pages, downloadString);
+        }
+
+        public TextAnalyser(ConcurrentBag<string> filler) 
+        {
+            tags = filler.ToList<string>();
         }
 
         public TextAnalyser(string location)
@@ -37,6 +44,7 @@ namespace Matcher.Concretes.Algorithms
             tags = fillTags(location);
         }
 
+        // Methods
         public List<string> AnalyseText(string x)
         {
             return AnalyseText(x, tags);
@@ -110,7 +118,6 @@ namespace Matcher.Concretes.Algorithms
                 var client = new RestClient("http://api.stackoverflow.com");
                 client.AddHandler("application/json", new DynamicJsonDeserializer());
 
-
                 for (int i = 0; i < pages; i++)
                 {
                     var request = new RestRequest("1.1/tags");
@@ -119,6 +126,8 @@ namespace Matcher.Concretes.Algorithms
                     request.AddParameter("page", i + 1);
                     IRestResponse<JObject> response = client.Execute<JObject>(request);
                     jsonResult.Add(response.Data);
+                    Console.Clear();
+                    Console.WriteLine("Loading application " + ((100 / pages) * i) + "%");
                 }
 
                 string filler = "";
@@ -180,6 +189,19 @@ namespace Matcher.Concretes.Algorithms
             }
 
             
+        }
+
+        public ConcurrentBag<string> FillBag()
+        {
+            if (tags.Count > 0)
+            {
+                ConcurrentBag<string> bag = new ConcurrentBag<string>(tags);
+                return bag;
+            }
+            else
+            {
+                return null;
+            }                       
         }
     }
 

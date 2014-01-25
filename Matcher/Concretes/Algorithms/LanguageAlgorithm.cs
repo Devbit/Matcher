@@ -22,8 +22,7 @@ namespace Matcher.Concretes.Algorithms
     {
         TextAnalyser textAnalyser = new TextAnalyser("ext_resources/languages.txt");
         
-
-        public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier)
+        public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier, MatcherCommander commander)
         {
             List<Language> languages = profile.languages;
             Debug.WriteLine("== START LANGUAGE ==");

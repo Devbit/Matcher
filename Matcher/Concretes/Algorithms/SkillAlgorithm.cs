@@ -20,10 +20,10 @@ namespace Matcher.Concretes.Algorithms
 {
     class SkillAlgorithm : IAlgorithm
     {
-        public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier)
+        public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier, MatcherCommander commander)
         {
             Debug.WriteLine("== START SKILLS ==");
-            TextAnalyser analyser = new TextAnalyser(20, "http://api.stackoverflow.com/1.1/tags?pagesize=100&page=");
+            TextAnalyser analyser = new TextAnalyser(commander.GetBag());
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
 
             List<string> skills = profile.skills;

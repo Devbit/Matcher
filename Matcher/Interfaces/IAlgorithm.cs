@@ -19,6 +19,6 @@ namespace Matcher
 {
     interface IAlgorithm
     {
-        MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier);
+        MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier, MatcherCommander commander);
     }
 }

@@ -24,9 +24,9 @@ namespace Matcher.Algorithms
     {
         
         // Matched Experience and Details
-        public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier)
+        public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier, MatcherCommander commander)
         {
-            TextAnalyser analyser = new TextAnalyser(20, "http://api.stackoverflow.com/1.1/tags?pagesize=100&page=");
+            TextAnalyser analyser = new TextAnalyser(commander.GetBag());
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
 
             Debug.WriteLine("== START EXPERIENCE ==");
@@ -195,7 +195,14 @@ namespace Matcher.Algorithms
             {
                 monthFixed = 1;
             }
-            int year = Convert.ToInt32(dateIntString.Substring(0, partial)) * 100;
+
+            int year = Convert.ToInt32(DateTime.UtcNow.Date.ToString("yyyy")) * 100;
+            if (partial > 0)
+            { 
+                year = Convert.ToInt32(dateIntString.Substring(0, partial)) * 100;
+            }
+
+
             int result = year + monthFixed;
             return result;
         }

@@ -26,7 +26,7 @@ namespace Matcher
     public class Matcher
     {
         private bool _isRunning = false;
-        private MatcherCommander Commander;
+        private MatcherCommander commander;
         private Processor proc;
         private string status = "";
 
@@ -45,7 +45,7 @@ namespace Matcher
         public Matcher(Processor processor, MatcherCommander commander)
         {
             proc = processor;
-            Commander = commander;
+            this.commander = commander;
         }
 
         private void SaveMatch(Match match)
@@ -132,7 +132,7 @@ namespace Matcher
                         // Experience
                         if (profile.experience != null)
                         {
-                            MatchFactor experienceFactor = new ExperienceAlgorithm().CalculateFactor<Experience>(profile, vacancy, multiplierExp);
+                            MatchFactor experienceFactor = new ExperienceAlgorithm().CalculateFactor<Experience>(profile, vacancy, multiplierExp, commander);
 
                             if (experienceFactor != null)
                             {
@@ -143,7 +143,7 @@ namespace Matcher
                         // Skills
                         if (profile.skills != null)
                         {
-                            MatchFactor skillFactor = new SkillAlgorithm().CalculateFactor<string>(profile, vacancy, multiplierSkills);                           
+                            MatchFactor skillFactor = new SkillAlgorithm().CalculateFactor<string>(profile, vacancy, multiplierSkills, commander);                           
 
                             if (skillFactor != null)
                             {
@@ -154,7 +154,7 @@ namespace Matcher
                         // Languages
                         if (profile.languages != null)
                         {
-                            MatchFactor languageFactor = new LanguageAlgorithm().CalculateFactor<Language>(profile, vacancy, multiplierLanguages);
+                            MatchFactor languageFactor = new LanguageAlgorithm().CalculateFactor<Language>(profile, vacancy, multiplierLanguages, commander);
                             if (languageFactor != null)
                             {
                                 matchFactors.Add(languageFactor);
@@ -198,7 +198,7 @@ namespace Matcher
             Debug.WriteLine("Done");
             /*  STOP MATCHING  */
 
-            Commander.FinishMatcher(this);
+            commander.FinishMatcher(this);
             
         }
 

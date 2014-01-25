@@ -9,6 +9,7 @@
 
 
 using Communicator;
+using Matcher.Concretes.Algorithms;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -23,12 +24,20 @@ namespace Matcher
     public class MatcherCommander
     {
         private ConcurrentDictionary<Matcher, Thread> ThreadStack = new ConcurrentDictionary<Matcher, Thread>();
+        private ConcurrentBag<string> tags = new ConcurrentBag<string>();
+        private TextAnalyser analyser;
+
         Processor Processor;
 
         public MatcherCommander(string link, bool buffering)
         {
             Processor = new Processor(link, buffering);
             Processor.SetVacancyAmount(0);
+
+            Console.WriteLine("Loading program...\n");
+            analyser = new TextAnalyser(25, "http://api.stackoverflow.com/1.1/tags?pagesize=100&page=");
+            Console.WriteLine("List succesfully loaded");
+            tags = analyser.FillBag();
         }
 
         public int GetMatcherCount()
@@ -91,6 +100,11 @@ namespace Matcher
             {
                 Debug.WriteLine("Exception Occurred :{0},{1}", ex.Message, ex.StackTrace.ToString());
             }
+        }
+
+        public ConcurrentBag<string> GetBag()
+        {
+            return tags;
         }
     }
 }
