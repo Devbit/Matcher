@@ -181,7 +181,7 @@ namespace Matcher
                         {
                             Match match = matchFactory.CreateMatch(profile, vacancy, matchFactors, strength);
                             SaveMatch(match);
-                            Debug.WriteLine("~ MATCH CREATED ~");
+                            Debug.WriteLine("~~~ MATCH CREATED ~~~");
                         }
 
                         Debug.WriteLine("Profile (" + profile.name.fullname + ") matched Vacancy (" + vacancy._id + ") with " + strength + " stength.");

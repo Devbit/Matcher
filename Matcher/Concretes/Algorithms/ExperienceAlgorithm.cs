@@ -23,13 +23,10 @@ namespace Matcher.Algorithms
     class ExperienceAlgorithm : IAlgorithm
     {
         
-        // Matched Experience and Details
         public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier, MatcherCommander commander)
         {
             TextAnalyser analyser = new TextAnalyser(commander.GetBag());
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
-
-            Debug.WriteLine("== START EXPERIENCE ==");
 
             List<Experience> experiences = profile.experience;
             

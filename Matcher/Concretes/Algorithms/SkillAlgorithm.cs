@@ -20,9 +20,9 @@ namespace Matcher.Concretes.Algorithms
 {
     class SkillAlgorithm : IAlgorithm
     {
+
         public MatchFactor CalculateFactor<T>(Profile profile, Vacancy vacancy, int multiplier, MatcherCommander commander)
         {
-            Debug.WriteLine("== START SKILLS ==");
             TextAnalyser analyser = new TextAnalyser(commander.GetBag());
             MatchFactorFactory matchFactorFactory = new CustomMatchFactorFactory();
 
